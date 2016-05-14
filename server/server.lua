@@ -35,7 +35,7 @@ while true do
                 if x and y then
                     local ent = world[entity] 
                     if ( ent == nil ) then
-                        print( "entity " .. entity .. " (" .. tableLength(world) .. ") added" )
+                        print( "entity " .. entity .. " (" .. tablelength(world) .. ") added" )
                         ent = {x = 0, y = 0}
                     end
                     x, y = ent.x + tonumber(x), ent.y + tonumber(y)
