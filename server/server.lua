@@ -70,7 +70,8 @@ while true do
                 local port = port_or_nil or 0
                 log( "disconnected", entity, msg_or_ip, port, tablelength(world) )
             else 
-                -- commands is unrecognized, refuse and do nothing
+                -- cmd is unrecognized, refuse and do nothing
+                local port = port_or_nil or 0
                 log( "commandrefused", entity, msg_or_ip, port, tablelength(world) )
             end
         elseif msg_or_ip ~= "timeout" then 

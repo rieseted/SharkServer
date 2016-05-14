@@ -43,7 +43,7 @@ function love.update(deltatime)
             x = x + (70 * t) 
 --            print( "x=" .. x )
         end
-        local dg = string.format("%s %s %f %f", entity, "move", x, y)
+        local dg = string.format("%s %s %f %f", entity, "bad", x, y)
         udp:send(dg)
         t = t - updaterate
 --        print( "send: " .. dg )
