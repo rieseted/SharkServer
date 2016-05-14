@@ -2,6 +2,8 @@
 -- @see README
 
 local udpPort = 12345
+local contentWidth = 960
+local contentHeight = 480
 
 local json = require "json"
 local socket = require "socket"
@@ -26,7 +28,7 @@ while true do
                 if x and y then
                     local ent = world[entity] or {x = 0, y = 0}
                     x, y = ent.x + tonumber(x), ent.y + tonumber(y)
-                    if x >= 0 and x <= 775 and y >= 0 and y <= 575 then
+                    if x >= 0 and x <= contentWidth and y >= 0 and y <= contentHeight then
                         local collision = false
                         for k, v in pairs(world) do
                             if k ~= entity then
