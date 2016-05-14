@@ -14,6 +14,13 @@ local world = {}
 local data, msg_or_ip, port_or_nil
 local entity, cmd, parms
 
+function tablelength(T)
+  local count = 0
+  for _ in pairs(T) do count = count + 1 end
+  return count
+end
+
+
 print( "Server started on port " .. udpPort )
 
 -- Server wakes up every 0.1 sec, updates game state based on incoming data, sends update to clients
@@ -28,7 +35,7 @@ while true do
                 if x and y then
                     local ent = world[entity] 
                     if ( ent == nil ) then
-                        print( "entity added" )
+                        print( "entity " .. entity .. " (" .. tableLength(world) .. ") added" )
                         ent = {x = 0, y = 0}
                     end
                     x, y = ent.x + tonumber(x), ent.y + tonumber(y)

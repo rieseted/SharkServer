@@ -107,3 +107,12 @@ end
 love.load()
 Runtime:addEventListener( "enterFrame", update )
 Runtime:addEventListener( "system", onSystemEvent )
+
+--local imgJoystick = display.newCircle(0, 0, 50 )
+--imgJoystick:setFillColor(0, 0.8)
+--local imgBgJoystick = display.newCircle(0, 0, 75 )
+--imgBgJoystick:setFillColor(0, 0.5)
+local joyGroup = display.newGroup()
+local joy1 = require( "virtualjoystick" ):create( joyGroup, 75 )
+joy1.x = 100
+joy1.y = display.contentHeight - 100
