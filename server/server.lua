@@ -23,10 +23,11 @@ end
 
 function log( state, entity, ipaddr, port, worldsize )
     if not logHead then
-        logHead = "state,entity,ipaddr,port,worldsize"
+        logHead = "date,time,state,entity,ipaddr,port,worldsize"
         print( logHead )
     end
-    print( string.format( "%s,%d,%s,%d,%d", state, entity, ipaddr, port, worldsize ) )
+    local ts = os.date( "%x,%X")
+    print( string.format( "%s,%s,%d,%s,%d,%d", ts, state, entity, ipaddr, port, worldsize ) )
 end
 
 log( "started", 0, "0.0.0.0", udpPort, 0 )
