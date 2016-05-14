@@ -29,7 +29,7 @@ function log( state, entity, ipaddr, port, worldsize )
     print( string.format( "%s,%d,%s,%d,%d", state, entity, ipaddr, port, worldsize ) )
 end
 
-log( "started", "", "0.0.0.0", udpPort, 0 )
+log( "started", 0, "", "0.0.0.0", udpPort, 0 )
 
 -- Server wakes up every 0.1 sec, updates game state based on incoming data, sends update to clients
 while true do
