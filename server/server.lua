@@ -22,11 +22,15 @@ while true do
         data, msg_or_ip, port_or_nil = udp:receivefrom()
         if data then
             entity, cmd, parms = data:match("^(%S*) (%S*) (.*)")
-            print( "received command: " .. cmd )
+--            print( "received command: " .. cmd )
             if cmd == "move" then
                 local x, y = parms:match("^(%-?[%d.e]*) (%-?[%d.e]*)$")
                 if x and y then
-                    local ent = world[entity] or {x = 0, y = 0}
+                    local ent = world[entity] 
+                    if ( ent == nil ) then
+                        print( "entity added" )
+                        ent = {x = 0, y = 0}
+                    end
                     x, y = ent.x + tonumber(x), ent.y + tonumber(y)
                     if x >= 0 and x <= contentWidth and y >= 0 and y <= contentHeight then
                         local collision = false
@@ -47,6 +51,7 @@ while true do
                 end
             elseif cmd == "quit" then
                 world[entity] = nil
+                print( "entity removed" )
             else print("Unknown command: ", cmd, data) end
         elseif msg_or_ip ~= "timeout" then print("Unknown network error: " .. tostring(msg_or_ip)) end
     until not data
