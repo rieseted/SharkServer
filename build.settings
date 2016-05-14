@@ -1,0 +1,462 @@
+--
+-- For more information on build.settings see the Corona SDK Build Guide at:
+-- http://docs.coronalabs.com/guide/distribution/buildSettings/index.html
+--
+
+local appName = "Game Client"
+local urlScheme = "gameclient"
+
+settings = {
+    
+    build = {
+        -- leaves symbolic information in production (release) build
+        neverStripDebugInfo = true
+    },
+    orientation = {
+        -- Supported values for orientation:
+        -- portrait, portraitUpsideDown, landscapeLeft, landscapeRight
+        default = "landscapeRight",
+        supported = { "landscapeRight", "landscapeLeft" }
+    },
+    
+    android = {
+        googlePlayGamesAppId = "GOOGLE_PLAY_GAMES_APP_ID",
+        supportsTV = true, -- Android TV
+        isGame = true, -- Android TV Game cagegorization
+        --You can set your app to use a large heap by adding the largeHeap = true parameter. 
+        --For example, you might need to raise the max heap size on a particular device from 
+        --32 MB to 256 MB, allowing a Corona app to load 2048×2048 images. Note that this 
+        --setting is applicable only on Android 3.0 and higher.
+--        largeHeap = true, -- support 2048x2048 images
+        mainIntentFilter =
+        {
+            categories = {
+                "tv.ouya.intent.category.GAME", -- needed to show up in OUYA menu
+                "android.intent.category.LEANBACK_LAUNCHER", -- should be added when supportsTV=true
+            }, 
+            actions =
+            {
+              "android.intent.action.MAIN"
+            },
+        },
+        supportsScreens =
+        {
+            smallScreens  = true,
+            normalScreens = true,
+            largeScreens  = true,
+            xlargeScreens = true,
+        },
+        intentFilters = {
+            actions = { "android.intent.action.VIEW" },
+            categories = {
+                "android.intent.category.DEFAULT",
+                "android.intent.category.BROWSABLE",
+            },
+            data = { scheme = urlScheme },
+        },
+        usesExpansionFile = false, -- needed for Google Play apps >50mb
+        usesPermissions =
+        {
+            "android.permission.INTERNET",
+            "android.permission.WRITE_EXTERNAL_STORAGE",
+            "android.permission.ACCESS_NETWORK_STATE",
+            "com.android.vending.BILLING",
+            "com.android.vending.CHECK_LICENSE",
+            "com.amazon.tv.permission.LAUNCHER_SETTINGS"  -- FIRE TV required to open web view
+            -- Optional permission used to display current location via the GPS.
+--            "android.permission.ACCESS_FINE_LOCATION",
+            -- Optional permission used to display current location via WiFi or cellular service.
+--            "android.permission.ACCESS_COARSE_LOCATION",
+        },
+        usesFeatures =
+        {
+            -- If you set permissions "ACCESS_FINE_LOCATION" and "ACCESS_COARSE_LOCATION" above,
+            -- then you might want to set up your app to not require location services as follows.
+            -- Otherwise, devices that do not have location sevices (such as a GPS) will be unable
+            -- to purchase this app in the app store.
+            { name = "android.hardware.location", required = false },
+            { name = "android.hardware.location.gps", required = false },
+            { name = "android.hardware.location.network", required = false },
+            { name = "android.hardware.gamepad", required=false }, -- Android TV gamepad support
+        },
+    }, -- android
+    
+    iphone = {
+        iCloud = true,
+        plist = {
+            ITSAppUsesNonExemptEncryption = false, -- tells Apple no non-exportable encryption used
+            UIStatusBarHidden = false,
+            UIPrerenderedIcon = true, -- set to false for "shine" overlay
+            --UIApplicationExitsOnSuspend = true, -- uncomment to quit app on suspend
+            UILaunchImages = {
+                {  -- iPhone 4 LandscapeLeft
+                    ["UILaunchImageMinimumOSVersion"] = "7.0",
+                    ["UILaunchImageName"] = "Default-Landscape",
+                    ["UILaunchImageOrientation"] = "LandscapeLeft",
+                    ["UILaunchImageSize"] = "{320, 480}"
+                },
+                {  -- iPhone 4 LandscapeRight
+                    ["UILaunchImageMinimumOSVersion"] = "7.0",
+                    ["UILaunchImageName"] = "Default-Landscape",
+                    ["UILaunchImageOrientation"] = "LandscapeRight",
+                    ["UILaunchImageSize"] = "{320, 480}"
+                },
+                {  -- iPhone 5 LandscapeLeft
+                    ["UILaunchImageMinimumOSVersion"] = "7.0",
+                    ["UILaunchImageName"] = "Default-Landscape-568h",
+                    ["UILaunchImageOrientation"] = "LandscapeLeft",
+                    ["UILaunchImageSize"] = "{320, 568}"
+                },
+                {  -- iPhone 5 LandscapeRight
+                    ["UILaunchImageMinimumOSVersion"] = "7.0",
+                    ["UILaunchImageName"] = "Default-Landscape-568h",
+                    ["UILaunchImageOrientation"] = "LandscapeRight",
+                    ["UILaunchImageSize"] = "{320, 568}"
+                },
+                {  -- iPad LandscapeLeft
+                    ["UILaunchImageMinimumOSVersion"] = "7.0",
+                    ["UILaunchImageName"] = "Default-Landscape",
+                    ["UILaunchImageOrientation"] = "LandscapeLeft",
+                    ["UILaunchImageSize"] = "{768, 1024}"
+                },
+                {  -- iPad LandscapeRight
+                    ["UILaunchImageMinimumOSVersion"] = "7.0",
+                    ["UILaunchImageName"] = "Default-Landscape",
+                    ["UILaunchImageOrientation"] = "LandscapeRight",
+                    ["UILaunchImageSize"] = "{768, 1024}"
+                },
+                {  -- iPhone 6 LandscapeLeft
+                    ["UILaunchImageMinimumOSVersion"] = "8.0",
+                    ["UILaunchImageName"] = "Default-Landscape-667h",
+                    ["UILaunchImageOrientation"] = "LandscapeLeft",
+                    ["UILaunchImageSize"] = "{375, 667}"
+                },
+                {  -- iPhone 6 LandscapeRight
+                    ["UILaunchImageMinimumOSVersion"] = "8.0",
+                    ["UILaunchImageName"] = "Default-Landscape-667h",
+                    ["UILaunchImageOrientation"] = "LandscapeRight",
+                    ["UILaunchImageSize"] = "{375, 667}"
+                },
+                {  -- iPhone 6 Plus LandscapeLeft
+                    ["UILaunchImageMinimumOSVersion"] = "8.0",
+                    ["UILaunchImageName"] = "Default-Landscape-736h",
+                    ["UILaunchImageOrientation"] = "LandscapeLeft",
+                    ["UILaunchImageSize"] = "{414, 736}"
+                },
+                {  -- iPhone 6 Plus LandscapeRight
+                    ["UILaunchImageMinimumOSVersion"] = "8.0",
+                    ["UILaunchImageName"] = "Default-Landscape-736h",
+                    ["UILaunchImageOrientation"] = "LandscapeRight",
+                    ["UILaunchImageSize"] = "{414, 736}"
+                },
+            },
+
+--            NSLocationWhenInUseUsageDescription = "Device location is used to map nearby venues.",
+            
+--            CFBundleShortVersionString = "1.0", -- override build number
+--            CFBundleVersion = "yyyy.mm.ddtime", -- override internal build number
+            CFBundleDisplayName = appName,
+            CFBundleURLTypes = {
+                {
+                    CFBundleURLSchemes = {
+                        urlScheme,
+                    }
+                }
+            },
+            CFBundleIconFile = "Icon.png",
+            CFBundleIconFiles = 
+            {
+                    "Icon.png", 
+                    "Icon@2x.png",
+                    "Icon@3x.png",
+                    "Icon-60.png",
+                    "Icon-60@2x.png",
+                    "Icon-60@3x.png",
+                    "Icon-72.png", 
+                    "Icon-72@2x.png",
+                    "Icon-76.png",
+                    "Icon-76@2x.png", 
+                    "Icon-Small.png", 
+                    "Icon-Small@2x.png",
+                    "Icon-Small@3x.png",
+                    "Icon-Small-40.png",
+                    "Icon-Small-40@2x.png",
+                    "Icon-Small-50.png", 
+                    "Icon-Small-50@2x.png",
+            },
+            UIAppFonts = 
+            {
+--                "TimKid.ttf",
+--                "d-puntillas-B-to-tiptoe.ttf",
+--                "d puntillas D to tiptoe.ttf",
+            },
+            
+            -- NSAppTransportSecurity necessary for non-SSL connections in iOS9+
+            NSAppTransportSecurity =
+            {
+                NSAllowsArbitraryLoads = true, -- need for ad providers
+            },
+            
+            --[[
+            -- iOS app URL schemes:
+            CFBundleURLTypes =
+            {
+                {
+                    CFBundleURLSchemes =
+                    {
+                        "fbXXXXXXXXXXXXXX", -- example scheme for facebook
+                        "coronasdkapp", -- example second scheme
+                    }
+                }
+            }
+            --]]
+        }
+    }, -- iphone
+    
+    tvos =
+    {
+        iCloud = true,
+        plist = {
+            ITSAppUsesNonExemptEncryption = false, -- tells Apple no non-exportable encryption used
+            NSAppTransportSecurity =
+            {
+                NSAllowsArbitraryLoads = true, -- need for ad providers
+            },
+        },
+        -- Apple TV app icons consist of multiple "layers" in both small and large sizes
+        icon =
+        {
+            -- A collection of 400x240 images, in order from top to bottom
+            small =
+            {
+--                "Icon-tvOS-Small-4.png",
+                "Icon-tvOS-Small-3.png",
+                "Icon-tvOS-Small-2.png",
+                "Icon-tvOS-Small-1.jpg", -- must be JPG (no transparency)
+            },
+            -- A collection of 1280x768 images, in order from top to bottom
+            large =
+            {
+                "Icon-tvOS-Large-3.png",
+                "Icon-tvOS-Large-2.png",
+                "Icon-tvOS-Large-1.jpg", -- must be JPG (no transparency)
+            }
+        },
+
+        -- A 1920x720 image file, displayed when your app is on the "top shelf"
+        topShelfImage = "Icon-tvOS-TopShelf.jpg", -- must be JPG (no transparency)
+
+        -- A 1920x1080 image file, displayed briefly as your app loads
+        launchImage = "Icon-tvOS-Launch.png"
+    },
+    
+    
+    -- exclude files per platform
+    excludeFiles = 
+    {
+        --           all = { "*secret.txt", "artwork/*" },
+        all = { "Icon1024.png", "*.iconset*", "icon_*.png", "*.sh", "doc/*", "ITunesArtwork*", "IconUnderground*" },
+        iphone = { "Icon-*dpi.png", "Icon-ouya*", "Icon-win32*", "Icon*.icns", "Icon-tvos*", "audio/*.ogg", "audio/*.mp3", "audio/*.wav" },
+        tvos = { "Default*.png", "Icon-*dpi.png", "Icon-ouya*", "Icon-win32*", "Icon*.icns", "audio/*.ogg", "audio/*.mp3", "audio/*.wav" },
+        android = { "Icon.png", "Icon-win32*", "Icon-osx*", "Icon-tvos*", "Icon*.icns", "*@2x.png", "*@3x.png", "audio/*.mp3", "audio/*.m4a", "audio/*.aac", "audio/*.aif", "audio/*.wav" },
+        osx = { "Default*.png", "Icon-ouya*", "Icon-*dpi.png", "Icon-tvos*", "Icon-win32*", "*@2x.png", "*@3x.png", "audio/*.ogg", "audio/*.mp3", "audio/*.wav" },
+        win32 = { "Default*.png", "Icon-ouya*", "Icon-*dpi.png", "Icon-tvos*", "Icon*.icns", "*@2x.png", "*@3x.png", "audio/*.mp3", "audio/*.aif", "audio/*.aac", "audio/*.m4a" }
+    },
+    
+    -- PLUGINS
+    plugins =
+    {
+        -- ADS and SHARING
+--        ["CoronaProvider.ads.vungle"] =
+--        {
+--            -- adds 3mb
+--            publisherId = "com.vungle",
+--            supportedPlatforms = { android=true, iphone=true }
+--        },
+--        ["plugin.applovin"] =
+--        {
+--            -- adds 1.1mb
+--            publisherId = "com.coronalabs",
+--            -- only in use for appletv because build fails on Android - too many plugins
+--            supportedPlatforms = { appletvos=true } 
+--        },
+--        
+--        ["plugin.google.play.services"] = -- also required for Flurry plug-in on Android
+--        {
+--            publisherId = "com.coronalabs",
+--            supportedPlatforms = { android=true, ["android-kindle"]=true }
+--        },
+        
+        -- ANALYTICS
+--        ["CoronaProvider.analytics.flurry"] =
+--        ["plugin.flurry.analytics"] =
+--        {
+--            publisherId = "com.coronalabs",
+--            supportedPlatforms = { ["android-kindle"]=true, android=true, iphone=true }
+--        },
+--        ["plugin.googleAnalytics"] =
+--        {
+--            publisherId = "com.coronalabs",
+--            supportedPlatforms = { iphone=true, android=true }
+--        },
+--        -- also required by analytics, ads
+--        ["CoronaProvider.native.popup.social"] =
+--        {
+--            publisherId = "com.coronalabs",
+--            supportedPlatforms = { android=true, iphone=true }
+--        },
+        
+        -- GAME NETWORKS
+--        ["CoronaProvider.gameNetwork.apple"] =
+--        {
+--            publisherId = "com.coronalabs",
+--            supportedPlatforms = { iphone=true, ["iphone-sim"]=true }
+--        },
+--        ["CoronaProvider.gameNetwork.google"] =
+--        {
+--            publisherId = "com.coronalabs",
+--            supportedPlatforms = { android=true }
+--        },
+--        ["plugin.gamecircle"] =
+--        {
+--            publisherId = "COM_INNOVATIVELEISURE",
+--            supportedPlatforms = { ["android-kindle"]=true }
+--        },
+        
+        -- IAP
+--        ["plugin.google.iap.v3"] =
+--        {
+--            publisherId = "com.coronalabs",
+--            supportedPlatforms = { android=true }
+--        },
+--        ["plugin.amazon.iap"] =
+--        {
+--            publisherId = "com.coronalabs",
+--            supportedPlatforms = { ["android-kindle"]=true }
+--        },
+--        ["plugin.notifications"] =
+--        {
+--            publisherId = "com.coronalabs",
+--            supportedPlatforms = { ["android-kindle"]=true, android=true, iphone=true }
+--        },
+
+        -- iCloud storage added 1/8/2016 - for tvOS support
+--        ["plugin.iCloud"] =
+--        {
+--            publisherId = "com.coronalabs",
+--            supportedPlatforms = { iphone=true, appletvos=true, ["iphone-sim"]=true },
+--        },
+
+-- UNUSED FOR THIS APP
+--        ["plugin.fuse"] =
+--        {
+--            -- adds 10.1mb
+--            publisherId = "com.coronalabs"
+--        },
+--        ["plugin.fuse.ads"] =
+--        {
+--            publisherId = "com.coronalabs"
+--        },
+--        ["plugin.fbAudienceNetwork"] =
+--        {
+--            publisherId = "com.coronalabs",
+--            supportedPlatforms = { iphone=true, android=true, osx=true, ["win32-sim"]=true },
+--        },
+--        ["plugin.facebook.v4"] =
+--        {
+--            -- adds 1.7mb
+--            publisherId = "com.coronalabs"
+--        },
+--        ["plugin.combre"] =
+--        {
+--            -- adds 22.9mb
+--            publisherId = "com.appsaholic",
+--            supportedPlatforms = { iphone=true, android=true, osx=true, win32=true }
+--        },
+--        ["plugin.gameanalytics"] =
+--        {
+--                publisherId = "com.gameanalytics",
+--        },
+--        ["plugin.advertisingId"] =
+--        {
+--                publisherId = "com.coronalabs"
+--        },
+--        ["plugin.bit"] =
+--        {
+--            publisherId = "com.coronalabs"
+--        },
+--        ["plugin.qrscanner"] = {
+--            publisherId = "com.spiralcodestudio",
+--            supportedPlatforms = { iphone=true, android=true, osx=true, ["win32-sim"]=true },
+--        },
+--        ["plugin.mwc"] = { 
+--            publisherId = "com.xibalbastudios"  -- multiply with carry RNG
+--        },
+    },
+    
+    -- This table configures the desktop app window for Win32 and OS X:
+    window = {
+
+        -- Sets up how the window should be launched on startup (default is "normal").
+        -- Supports "normal", "minimized", "maximized", or "fullscreen".
+        defaultMode = "normal",
+
+        -- Sets the default launch width and height of the view/client area of the window.
+        -- This is the region within the borders of the window that Corona renders to.
+        -- Ideally, this should match or exceed your "config.lua" content width and height.
+        defaultViewWidth = 960,
+        defaultViewHeight = 480,
+
+        -- Set the following to true to allow the end user to resize the window.
+        -- If true, then you may need to handle Corona's "resize" event to re-layout your content.
+        -- The window is not resizable by default; you must opt-in by setting this to true.
+        resizable = true,
+
+        -- These settings only apply if "resizable" (above) is set to true.
+        -- Prevents the user from resizing the window to a size smaller than these values.
+        -- This width and height is the region within the borders of the window.
+        -- The width and height should be set to your "config.lua" file's content width and height.
+        -- If settings are not specified, the window can be resized down to whatever the OS allows.
+        minViewWidth = 960,
+        minViewHeight = 480,
+
+        -- Enables/disables the window's "close" button (enabled by default).
+        -- If disabled, you must close the window in Lua via "native.requestExit()".
+        -- Note that Corona does not currently provide an event when the close button is clicked.
+        enableCloseButton = true,
+
+        -- Enables/disables the window's minimize button (enabled by default).
+        enableMinimizeButton = true,
+
+        -- Enables/disables the window's maximize button (disabled by default).
+        -- Note that the window will be resized when maximized and restored.
+        -- If enabled, you may need to handle Corona's "resize" event to re-layout your content.
+        enableMaximizeButton = true,
+
+        -- Tells the runtime to suspend when the window is minimized (disabled by default).
+        suspendWhenMinimized = true,
+
+        -- Sets the window's title bar text to a localized string (no title bar text by default).
+        -- Supports 2 letter ISO 639‐1 language codes (not case-sensitive).
+        -- Supports optional 2 letter ISO 3166‐1 country codes (not case sensitive).
+        -- Language and country codes must be separated by a dash (-).
+        titleText = {
+            -- The "default" text will be used if the system is using a language and/or
+            -- country code not defined below. This serves as a fallback mechanism.
+            default = appName,
+            -- This text is used on English language systems in the United States.
+            -- Note that the country code is optional (used for regional purposes).
+            ["en‐us"] = appName,
+            -- This text is used on English language systems in the United Kingdom.
+            -- Note that the country code is optional (used for regional purposes).
+            ["en‐gb"] = appName,
+            -- This text is used for all other English language systems.
+            ["en"] = appName,
+            -- This text is used for all French language systems.
+            ["fr"] = appName,
+            -- This text is used for all Spanish language systems.
+            ["es"] = appName,
+        },
+    },
+}
+
