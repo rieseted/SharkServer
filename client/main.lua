@@ -43,8 +43,12 @@ function love.update(deltatime)
             x = x + (70 * t) 
 --            print( "x=" .. x )
         end
-        local dg = string.format("%s %s %f %f", entity, "bad", x, y)
-        udp:send(dg)
+        if ( x == 0 ) and ( y == 0 ) then
+            -- no need to send any network traffic, nothing changed
+        else
+            local dg = string.format("%s %s %f %f", entity, "move", x, y)
+            udp:send(dg)
+        end
         t = t - updaterate
 --        print( "send: " .. dg )
     end
