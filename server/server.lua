@@ -35,7 +35,7 @@ while true do
                 if x and y then
                     local ent = world[entity] 
                     if ( ent == nil ) then
-                        print( "entity " .. entity .. " (" .. tablelength(world) .. ") added" )
+                        print( "connected: entity " .. entity .. " (" .. tablelength(world) .. ") [" .. msg_or_ip .. "]" )
                         ent = {x = 0, y = 0}
                     end
                     x, y = ent.x + tonumber(x), ent.y + tonumber(y)
@@ -57,8 +57,8 @@ while true do
                     end
                 end
             elseif cmd == "quit" then
+                print( "disconnected: entity " .. entity .. " [" .. msg_or_ip .. "]" )
                 world[entity] = nil
-                print( "entity removed" )
             else print("Unknown command: ", cmd, data) end
         elseif msg_or_ip ~= "timeout" then print("Unknown network error: " .. tostring(msg_or_ip)) end
     until not data
