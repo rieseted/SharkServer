@@ -21,6 +21,14 @@ function tablelength(T)
 end
 
 
+function log( state, entity, ipaddr, port, worldsize )
+    if not logHead then
+        logHead = "state,entity,ipaddr,port,worldsize"
+        print( logHead )
+    end
+    print( string.format( "%s,%d,%s,%d,%d", state, entity, ipaddr, port, worldsize ) )
+end
+
 print( "Server started on port " .. udpPort )
 
 -- Server wakes up every 0.1 sec, updates game state based on incoming data, sends update to clients
@@ -36,7 +44,7 @@ while true do
                     local ent = world[entity] 
                     if ( ent == nil ) then
                         local port = port_or_nil or 0
-                        print( "connected: entity " .. entity .. " [" .. msg_or_ip .. "] P:" .. port .. " W:" .. tostring(tablelength(world) + 1) )
+                        log( "connected", entity, msg_or_ip, port, tablelength(world) + 1 )
                         ent = {x = 0, y = 0}
                     end
                     x, y = ent.x + tonumber(x), ent.y + tonumber(y)
@@ -60,9 +68,15 @@ while true do
             elseif cmd == "quit" then
                 world[entity] = nil
                 local port = port_or_nil or 0
-                print( "disconnected: entity " .. entity .. " [" .. msg_or_ip .. "] P:" .. port .. " W:" .. tablelength(world) )
-            else print("Unknown command: ", cmd, data) end
-        elseif msg_or_ip ~= "timeout" then print("Unknown network error: " .. tostring(msg_or_ip)) end
+                log( "disconnected", entity, msg_or_ip, port, tablelength(world) )
+            else 
+                -- commands is unrecognized, refuse and do nothing
+                log( "commandrefused", entity, msg_or_ip, port, tablelength(world) )
+            end
+        elseif msg_or_ip ~= "timeout" then 
+            local port = port_or_nil or 0
+            log( "networkerror", "", msg_or_ip, port, tablelength(world) )
+        end
     until not data
     
     -- Global push of world state, limited by fog of war
